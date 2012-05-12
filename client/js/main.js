@@ -68,21 +68,20 @@ function show_scores(scores) {
   $("#scores")[0].innerHTML = "";
   var score;
 
-  var p = document.createElement("pre");
-  p.textContent = "name\t\trecent score\t\tcumulative";
-  $('#scores')[0].appendChild(p);
+  var table = document.createElement("table");
+
+  var tr = document.createElement("tr");
+  tr.textContent = "<td>name</td><td>recent score</td><td>cumulative</td>";
+  table.appendChild(tr);
 
   
   for (player in scores) {
-    var p = document.createElement("pre");
+    var tr = document.createElement("tr");
     var ship = scores[player][2];
-    var i = new Image();
-    i.src = ship;
-    p.textContent = player + "\t\t" + scores[player][0] + "\t\t" + scores[player][1];
-    $("#scores")[0].appendChild(p);
-    $("#scores")[0].appendChild(i);
+    tr.textContent = "<td><img src='" + ship + "'></td><td>" + player + "</td><td>" + scores[player][0] + "</td><td>" + scores[player][1] + "</td>";
+    table.appendChild(tr);
   }
-
+  $("#scores")[0].appendChild(table);
 }
 function tick() {
   game.update();
