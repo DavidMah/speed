@@ -117,9 +117,9 @@ function Rocket() {
   this.vy = 0;
   this.vx = 0;
   this.acceleration = 0.1;
-  var ship = new Image();
-  ship.src = "img/rocket_orange.gif";
-  this.image = ship;
+  this.ship = new Image();
+  this.ship.src = "vlar";
+  this.image = this.ship;
 
   var engine = new Image();
   engine.src="img/rocket_fire.gif";

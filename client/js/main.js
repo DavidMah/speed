@@ -9,6 +9,13 @@ $(document).ready(function() {
       game.time--;
   }, 1000);
     var click = function() {
+    var radio = $(".radio");
+    for (var i = 0; i < radio.length; i++) {
+      if (radio[i].checked) {
+        game.rocket.ship.src = radio[i].value;
+        console.log(game.rocket.ship.src);
+      }
+    }
     $("#welcome").css("visibility", "hidden");
     $("#loading").css("visibility", "visible");
     socket = io.connect('http://localhost');
