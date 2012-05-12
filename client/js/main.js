@@ -58,13 +58,18 @@ function endGame() {
 function show_scores(scores) {
   $("#scores")[0].innerHTML = "";
   var score;
+
+  var p = document.createElement("p");
+  p.textContent = "name: recent score -- cumulative";
+  $('#scores')[0].appendChild(p);
+
   for (player in scores) {
     var p = document.createElement("p");
-    p.textContent = player + ": " + scores[player]
+    p.textContent = player + ": " + scores[player][0] + " -- " + scores[player][1];
     $("#scores")[0].appendChild(p);
   }
-}
 
+}
 function tick() {
   game.update();
   game.draw();

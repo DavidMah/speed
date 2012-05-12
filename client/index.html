@@ -31,7 +31,7 @@
   }
 
   .right {
-    width: 300px;
+    width: 500px;
     float: right;
   }
 
@@ -46,7 +46,7 @@
   }
 
   #container {
-    width: 1200px;
+    width: 1400px;
   }
 
   .display {
@@ -56,6 +56,10 @@
     background-color: red;
     border: dashed yellow 15px;
     font-size: 40px; 
+  }
+
+  #score_box {
+    text-align: left;
   }
 
   #loading {
@@ -86,8 +90,10 @@
           <h2 id="time_prompt">Time Remaining:</h2>
           <span id="timer">42</span>
         </div>
-        <h2>Scores</h2>
-        <div id="scores"></div>
+        <div id="score_box">
+          <h2>Scores</h2>
+          <div id="scores"></div>
+        </div>
       </div>
       <div>
         <canvas width="800" height="600" id="game_canvas"></canvas>

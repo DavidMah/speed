@@ -75,7 +75,7 @@ function generateStar(planets) {
   var y = -1;
   while(withinPlanets(x, y, planets)) {
     x = parseInt(Math.random() * (BOARD_WIDTH  * 0.9))
-    y = parseInt(Math.random() * (BOARD_HEIGHT * 0.9))
+    y = parseInt(Math.random() * ((BOARD_HEIGHT / 2) * 0.9))
   }
   return {'x' : x, 'y' : y};
 }
