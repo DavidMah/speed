@@ -12,8 +12,8 @@ $(document).ready(function() {
       socket.emit('name', {name: $("#name_input").val()});
     });
     socket.on('game_start', function(event) {
-      console.log("Starting game with data: " + event);
-      startGame(canvas, event.time);
+      console.log("Starting game with planets: " + event.planets);
+      startGame(canvas, event.time, event.planets, event.star);
     });
     socket.on('game_end', function(event) {
       endGame();
@@ -27,21 +27,10 @@ $(document).ready(function() {
   });
 });
 
-function startGame(canvas, time) {
+function startGame(canvas, time, planets, star) {
   Ticker.setFPS(60);
   Ticker.addListener(window);
-  game.newGame([
-    {
-      x: 20,
-      y: 20,
-      radius: 100
-    },
-    {
-      x: 400,
-      y: 200,
-      radius: 150
-    }
-  ], 100, 200, time);
+  game.newGame(planets, star.x, star.y, time);
   // start countdown
   timer = setInterval(function() {
     if (game.state == "playing") {
