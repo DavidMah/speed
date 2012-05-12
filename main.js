@@ -5,16 +5,17 @@ var app = require('http').createServer(handler)
 app.listen(8080);
 
 function handler (req, res) {
- fs.readFile(__dirname + req.url,
-  function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading index.html');
-    }
+  console.log(req)
+  url = (req.url == '/' ? '/index.html' : req.url)
+  fs.readFile(__dirname + url,
+    function (err, data) {
+      if (err) {
+        res.writeHead(500);
+      }
 
-    res.writeHead(200);
-    res.end(data);
-  });
+      res.writeHead(200);
+      res.end(data);
+    });
 }
 
 var usernames = []
