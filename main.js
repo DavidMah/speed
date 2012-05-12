@@ -32,7 +32,7 @@ io.sockets.on('connection', function (socket) {
 });
 
 var timer        = 0;
-var game_length  = 15;
+var game_length  = 12;
 var scores       = {};
 
 var BOARD_WIDTH  = 800;
@@ -94,7 +94,7 @@ function withinPlanets(x, y, planets) {
 }
 
 function receiveScore(event) {
-  previous_score = (scores[event.name] == undefined ? [0, 0, "", true] : scores[event.name])
+  previous_score = (scores[event.name] == undefined ? [0, 0, event.ship, true] : scores[event.name])
   new_score = event.score;
   cumulative_score = previous_score[1] + new_score;
   scores[event.name] = [new_score, cumulative_score, previous_score[2], true];
