@@ -5,7 +5,6 @@ var app = require('http').createServer(handler)
 app.listen(8080);
 
 function handler (req, res) {
-  console.log(req)
   url = (req.url == '/' ? '/index.html' : req.url)
   fs.readFile(__dirname + url,
     function (err, data) {
@@ -31,19 +30,26 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('start', gameStart);
+  socket.on('score', receiveScore)
 
 });
 
 var timer       = 0
 var game_length = 20
+var scores      = {}
 
-function gameStart() {
-  io.sockets.emit('game_start', {'time' : timer});
+
+function receiveScore(event) {
+  scores[event.name] = scores.event.score
+}
+function gameStart(event) {
+  io.sockets.emit('game_start', {'time' : game_length - timer});
 }
 
 function gameEnd() {
   timer = 0;
   io.sockets.emit('game_end', {});
+  setTimeout(sendScores, 1000);
 }
 
 function gameStep() {
@@ -54,6 +60,11 @@ function gameStep() {
     gameEnd();
   if(timer % 5 == 0)
     console.log("time " + timer)
+}
+
+function sendScores() {
+  io.sockets.emit('all_scores', { 'scores' : scores });
+  var scores = {}
 }
 
 setInterval(gameStep, 1000)
