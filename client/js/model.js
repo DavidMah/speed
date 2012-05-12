@@ -22,13 +22,26 @@ Game.prototype.update = function() {
 } 
 
 Game.prototype.draw = function(canvas) {
+  var context = this.canvas.getContext("2d");
+  var center = {x: 800/2 - 100/2, y: 600/2 - 30/2};
+  context.font = "15pt Helvetica";
   if (this.state == "playing") {
     this.canvas.width = this.canvas.width;
-    this.rocket.draw(this.canvas.getContext("2d"));
-    this.star.draw(this.canvas.getContext("2d"));    
+    this.rocket.draw(context);
+    this.star.draw(context);    
     for (var i = 0; i < this.planets.length; i++) {
       this.planets[i].draw(this.canvas.getContext("2d"));
     }
+  } else if (this.state == "won") {
+    context.fillStyle = "#ffff00";
+    context.fillRect(center.x, center.y, 100, 30);
+    context.fillStyle = "#000000";
+    context.fillText("Nice!", center.x + 5, center.y + 25);
+  } else if (this.state == "dead") {
+    context.fillStyle = "#ff0000";
+    context.fillRect(center.x, center.y, 100, 30);
+    context.fillStyle = "#000000";
+    context.fillText("You Died.", center.x + 5, center.y + 25);
   }
 }
 
@@ -50,6 +63,7 @@ Game.prototype.newGame = function(planets, starX, starY, time) {
 Game.prototype.end = function() {
   this.planets = [];
   this.state = "waiting";
+  this.canvas.width = this.canvas.width;
 }
 
 Game.prototype.checkCollisions = function() {
@@ -111,7 +125,7 @@ function Rocket() {
   engine.src="img/rocket_fire.gif";
   this.engine = engine;
 
-  this.radius = this.image.width / 2;
+  this.radius = 20;
   this.moving = false;
   this.acceleration = 0.03;
 }
