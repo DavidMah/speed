@@ -48,7 +48,7 @@ Game.prototype.newGame = function(planets, starX, starY, time) {
 }
 
 Game.prototype.end = function() {
-  this.time = 0;
+  this.planets = [];
   this.state = "waiting";
 }
 
@@ -60,6 +60,10 @@ Game.prototype.checkCollisions = function() {
     var dx = p.x - r.x;
     var dy = p.y - r.y;
     var dist = Math.sqrt(dx * dx + dy * dy);
+    var angle = Math.atan2(dy, dx);
+    var force = 1 / dist;
+    r.vx += Math.cos(angle) * force;
+    r.vy += Math.sin(angle) * force;
     if (dist < p.radius + r.radius) {
       this.die();
     }
@@ -86,7 +90,7 @@ Game.prototype.die = function() {
 
 Game.prototype.win = function() {
   this.state = "won";
-  this.score = this.maxTime - this.time;
+  this.score = this.time;
 }
 
 /**
@@ -99,7 +103,7 @@ function Rocket() {
   this.vy = 0;
   this.vx = 0;
   this.radius = 10;
-  this.acceleration = 0.1;
+  this.acceleration = 0.03;
 }
 
 Rocket.prototype.update = function() {

@@ -60,10 +60,10 @@ function getRemainingTime() {
 
 function generatePlanets() {
   var planets = [];
-  for(var i = 0; i < PLANET_QUANTITY; i++) {
+  for(var i = 0; i < Math.random() * 4 + PLANET_QUANTITY; i++) {
     var x = parseInt(Math.random() * BOARD_WIDTH)
     var y = parseInt(Math.random() * BOARD_HEIGHT)
-    var radius = parseInt(Math.random() * BOARD_WIDTH / 10);
+    var radius = parseInt(Math.random() * BOARD_WIDTH / 5);
     var planet = {'x' : x, 'y' : y, 'radius' : radius};
     planets.push(planet);
   }
