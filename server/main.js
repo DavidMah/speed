@@ -12,7 +12,8 @@ io.sockets.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
 
   socket.on('new_user', function (name) {
-    socket.emit('new_user', { username: name });
+    socket.emit('new_user', { username:
+       name });
   });
 
 });

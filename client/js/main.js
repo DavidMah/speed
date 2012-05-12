@@ -1,13 +1,10 @@
 var GAME;
 
 $(document).ready(function() {
-  // Create SocketIO instance, connect
-  var socket = new io.Socket('localhost',{
-    port: 8080
-  });
-  socket.connect();
-  socket.on('connect',function() {
-    console.log('Client has connected to the server!');
+  var socket = io.connect('http://localhost');
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('name', { my: 'data' });
   });
 });
 
