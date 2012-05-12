@@ -3,7 +3,9 @@ var socket;
 
 $(document).ready(function() {
   var canvas = $('#game_canvas')[0];
-  $("#play_button").click(function() {
+    $("#play_button").click(function() {
+    $("#welcome").css("visibility", "hidden");
+    $("#loading").css("visibility", "visible");
     socket = io.connect('http://localhost');
     socket.on('connected', function(event) {
       socket.emit('name', {name: $("#name_input").val()});
@@ -21,6 +23,7 @@ $(document).ready(function() {
 });
 
 function startGame(canvas, time) {
+  $("#loading").css("visibility", "hidden");
   game = new Game(canvas, time);
   
   // start countdown
