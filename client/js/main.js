@@ -10,9 +10,11 @@ $(document).ready(function() {
   }, 1000);
     var click = function() {
     var radio = $(".radio");
+    var ship;
     for (var i = 0; i < radio.length; i++) {
       if (radio[i].checked) {
-        game.rocket.ship.src = radio[i].value;
+        ship = radio[i].value;
+        game.rocket.ship.src = ship;
         console.log(game.rocket.ship.src);
       }
     }
@@ -21,7 +23,7 @@ $(document).ready(function() {
     socket = io.connect('http://173.255.245.211:8080');
     socket.on('connected', function(event) {
       console.log("Sending name: " + $("#name_input").val());
-      socket.emit('name', {name: $("#name_input").val()});
+      socket.emit('name', {name: $("#name_input").val(), ship: ship});
     });
     socket.on('game_start', function(event) {
       console.log("Starting game with planets: " + event.planets);
@@ -30,7 +32,7 @@ $(document).ready(function() {
     socket.on('game_end', function(event) {
       endGame();
       console.log("Game ended. Sending score of " + game.score);
-      socket.emit('score', {name: $("#name_input").val(), score: game.score});
+      socket.emit('score', {name: $("#name_input").val(), score: game.score, ship: ship});
     })
     socket.on('all_scores', function(event) {
       console.log("Received all scores: " + event.scores);
@@ -73,8 +75,12 @@ function show_scores(scores) {
   
   for (player in scores) {
     var p = document.createElement("pre");
+    var ship = scores[player][2];
+    var i = new Image();
+    i.src = ship;
     p.textContent = player + "\t\t" + scores[player][0] + "\t\t" + scores[player][1];
     $("#scores")[0].appendChild(p);
+    $("#scores")[0].appendChild(i);
   }
 
 }
