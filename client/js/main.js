@@ -73,7 +73,6 @@ function show_scores(scores) {
   var tr = document.createElement("tr");
   tr.textContent = "<td>name</td><td>recent score</td><td>cumulative</td>";
   table.appendChild(tr);
-
   
   for (player in scores) {
     var tr = document.createElement("tr");
