@@ -43,6 +43,7 @@ function addNewUser(socket, event) {
   console.log("got dat name" + event.name);
   initializer = { 'score' : getScoreBoard()['score'],
                   'timer' : getRemainingTime() };
+
   socket.emit('all_scores', getScoreBoard());
   socket.emit('current_time', {'time' : getRemainingTime()});
 }
@@ -93,10 +94,10 @@ function withinPlanets(x, y, planets) {
 }
 
 function receiveScore(event) {
-  previous_score = (scores[event.name] == undefined ? [0, 0] : scores[event.name])
+  previous_score = (scores[event.name] == undefined ? [0, 0, "", true] : scores[event.name])
   new_score = event.score;
   cumulative_score = previous_score[1] + new_score;
-  scores[event.name] = [new_score, cumulative_score, true];
+  scores[event.name] = [new_score, cumulative_score, previous_score[2], true];
 }
 
 function gameStart(event) {
@@ -126,10 +127,10 @@ function sendScores() {
 
 function resetScores() {
   for(var key in scores) {
-    if(!scores[key][2]) {
+    if(!scores[key][3]) {
       delete scores[key]
     } else {
-      scores[key][2] = false;
+      scores[key][3] = false;
     }
   }
 }
