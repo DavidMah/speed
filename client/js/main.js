@@ -71,7 +71,7 @@ function show_scores(scores) {
   var table = document.createElement("table");
 
   var tr = document.createElement("tr");
-  tr.innerHTML = "<td>name</td><td>recent score</td><td>cumulative</td>";
+  tr.innerHTML = "<td></td><td class='title'>name</td><td class='title'>recent score</td><td class='title'>cumulative</td>";
   table.appendChild(tr);
   
   for (player in scores) {
