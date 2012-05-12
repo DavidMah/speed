@@ -18,7 +18,7 @@ $(document).ready(function() {
     }
     $("#welcome").css("visibility", "hidden");
     $("#loading").css("visibility", "visible");
-    socket = io.connect('http://localhost');
+    socket = io.connect('http://173.255.245.211:8080');
     socket.on('connected', function(event) {
       console.log("Sending name: " + $("#name_input").val());
       socket.emit('name', {name: $("#name_input").val()});
@@ -65,13 +65,19 @@ function endGame() {
 function show_scores(scores) {
   $("#scores")[0].innerHTML = "";
   var score;
+
+  var p = document.createElement("pre");
+  p.textContent = "name\t\trecent score\t\tcumulative";
+  $('#scores')[0].appendChild(p);
+
+  
   for (player in scores) {
-    var p = document.createElement("p");
-    p.textContent = player + ": " + scores[player]
+    var p = document.createElement("pre");
+    p.textContent = player + "\t\t" + scores[player][0] + "\t\t" + scores[player][1];
     $("#scores")[0].appendChild(p);
   }
-}
 
+}
 function tick() {
   game.update();
   game.draw();
@@ -79,8 +85,8 @@ function tick() {
 
 function updateTimer() {
   if(game.state != 'waiting') {
-  $('#timer').text(game.time);
+    $('#timer').text(game.time);
   } else {
-  $('#timer').text(5 - game.time);
+    $('#timer').text(5 + game.time);
   }
 }
