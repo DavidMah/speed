@@ -1,11 +1,10 @@
 var GAME;
 
 $(document).ready(function() {
-  console.log($("#name_input").value);
   $("#play_button").click(function() {
     var socket = io.connect('http://localhost');
     socket.on('connected', function(data) {
-      socket.emit('name', {name: $("#name_input").value});
+      socket.emit('name', {name: $("#name_input").val()});
     });
   });
 });
