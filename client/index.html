@@ -13,6 +13,7 @@
   body {
     background-color: #D4E9E3;
     font-family: Courier, monospace;
+    text-align: center;
   }
   
   h1 {
@@ -22,21 +23,36 @@
   #game_canvas {
     padding: 10px;
     width: 800px;
-    height: 800px;
+    height: 600px;
     border: 1px solid #000;
     margin: 20px auto;
     background-color: #000;
   }
+
+  .right {
+    float: right;
+  }
+
+  #container {
+    width: 1000px;
+  }
+
   </style>
   <body>
-    <div>
-      <input type="text" name="name" id="name_input" />
-      <button id="play_button">Play</button>
-    </div>
-    
-    
-    <div>
-      <canvas width="800" height="800" id="game_canvas"></canvas>
+    <div id="container">
+      <div>
+        <input type="text" name="name" id="name_input" />
+        <button id="play_button">Play</button>
+      </div>
+      
+      
+      <div class="right">
+        <h1>Scores</h1>
+        <div id="scores"></div>
+      </div>
+      <div>
+        <canvas width="800" height="600" id="game_canvas"></canvas>
+      </div>
     </div>
   </body>
 </html>
