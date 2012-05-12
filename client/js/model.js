@@ -63,6 +63,7 @@ Game.prototype.newGame = function(planets, starX, starY, time) {
 Game.prototype.end = function() {
   this.planets = [];
   this.state = "waiting";
+  this.canvas.width = this.canvas.width;
 }
 
 Game.prototype.checkCollisions = function() {
