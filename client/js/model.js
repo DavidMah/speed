@@ -23,17 +23,19 @@ Game.prototype.draw = function(canvas) {
   if (this.state == "playing") {
     this.canvas.width = this.canvas.width;
     this.rocket.draw(this.canvas.getContext("2d"));
+    this.star.draw(this.canvas.getContext("2d"));    
     for (var i = 0; i < this.planets.length; i++) {
       this.planets[i].draw(this.canvas.getContext("2d"));
     }
   }
 }
 
-Game.prototype.newGame = function(planets) {
+Game.prototype.newGame = function(planets, starX, starY) {
   this.rocket.x = this.startX;
   this.rocket.y = this.startY;
   this.rocket.vx = 0;
   this.rocket.vy = 0;
+  this.star = new Star(starX, starY, 10);
   for (var i = 0; i < planets.length; i++) {
     this.newPlanet(planets[i].x, planets[i].y, planets[i].radius);
   }
@@ -41,6 +43,7 @@ Game.prototype.newGame = function(planets) {
 }
 
 Game.prototype.checkCollisions = function() {
+  // check planets
   for (var i = 0; i < this.planets.length; i++) {
     var p = this.planets[i];
     var r = this.rocket;
@@ -51,6 +54,14 @@ Game.prototype.checkCollisions = function() {
       this.die();
     }
   }
+  
+  // check star
+  var dx = this.star.x - r.x;
+  var dy = this.star.y - r.y;
+  var dist = Math.sqrt(dx * dx + dy * dy);
+  if (dist < this.star.radius + r.radius) {
+    this.win();
+  }
 }
 
 Game.prototype.newPlanet = function(x, y, radius) {
@@ -60,6 +71,10 @@ Game.prototype.newPlanet = function(x, y, radius) {
 
 Game.prototype.die = function() {
   this.state = "dead";
+}
+
+Game.prototype.win = function() {
+  this.state = "won";
 }
 
 /**
@@ -93,26 +108,38 @@ Rocket.prototype.update = function() {
 }
 
 Rocket.prototype.draw = function(ctx) {
-  ctx.fillStyle = "#FFFFFF";  
+  ctx.fillStyle = "#FF0000";  
   ctx.fillRect(this.x - 7, this.y - 7, 15, 15);
 }
 
 /**
  * Planet
  */
-
 function Planet(x, y, radius) {
   this.x = x;
   this.y = y;
   this.radius = radius;
 }
 
-Planet.prototype.update = function() {
-  
-}
 
 Planet.prototype.draw = function(ctx) {
-  ctx.fillStyle = "#FFFFFF";  
   ctx.arc(this.x, this.y, this.radius, 0 , 2 * Math.PI, false);
+  ctx.fillStyle = "#CCCCCC";  
   ctx.fill();
+}
+
+/**
+ *
+ */
+function Star(x, y, radius) {
+  this.x = x;
+  this.y = y;
+  this.radius = radius;
+}
+
+Star.prototype.draw = function(ctx) {
+  ctx.arc(this.x, this.y, this.radius, 0 , 2 * Math.PI, false);
+  ctx.fillStyle = "#FFFF00";  
+  ctx.fill();
+
 }

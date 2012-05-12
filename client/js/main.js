@@ -16,7 +16,7 @@ $(document).ready(function() {
       y: 200,
       radius: 150
     }
-  ]);
+  ], 100, 200);
 });
 
 function tick() {
