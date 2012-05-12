@@ -5,6 +5,9 @@ var timer;
 $(document).ready(function() {
   var canvas = $('#game_canvas')[0];
   game = new Game(canvas);
+  timer = setInterval(function() {
+      game.time--;
+  }, 1000);
     var click = function() {
     $("#welcome").css("visibility", "hidden");
     $("#loading").css("visibility", "visible");
@@ -28,6 +31,7 @@ $(document).ready(function() {
     });
     socket.on('current_time', function(event) {
       console.log("Received current time: " + event.time);
+      game.time = event.time;
       setInterval(updateTimer, 100);
     });
   };
@@ -40,16 +44,11 @@ function startGame(canvas, time, planets, star) {
   Ticker.addListener(window);
   game.newGame(planets, star.x, star.y, time);
   // start countdown
-  timer = setInterval(function() {
-    if (game.state == "playing") {
-      game.time--;
-    }
-  }, 1000);
+
   $('#time_prompt').text('Time Remaining:');
 }
 
 function endGame() {
-  clearInterval(timer);
   $('#time_prompt').text("Next Game In:");
   game.end();
 }

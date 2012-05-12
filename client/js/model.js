@@ -125,7 +125,7 @@ function Rocket() {
   engine.src="img/rocket_fire.gif";
   this.engine = engine;
 
-  this.radius = this.image.width / 2;
+  this.radius = 20;
   this.moving = false;
   this.acceleration = 0.03;
 }
