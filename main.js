@@ -17,16 +17,13 @@ function handler (req, res) {
     });
 }
 
-var usernames = []
+var users = []
 
 io.sockets.on('connection', function (socket) {
   socket.emit('connected', {})
 
   socket.on('name', function(event) {
-    console.log(event)
-    console.log("got dat name" + event.name);
-    usernames.push(event.name);
-    io.sockets.emit('names', {'names' : usernames});
+    addNewUser(socket, event)
   });
 
   socket.on('start', gameStart);
@@ -42,6 +39,11 @@ var BOARD_WIDTH  = 800;
 var BOARD_HEIGHT = 600;
 var PLANET_QUANTITY = 4;
 
+function addNewUser(socket, event) {
+  console.log("got dat name" + event.name);
+  socket.emit('all_scores', getScoreBoard());
+}
+
 function generateGame() {
   planets = generatePlanets();
   star = generateStar(planets);
@@ -55,7 +57,7 @@ function generatePlanets() {
     var x = parseInt(Math.random() * BOARD_WIDTH)
     var y = parseInt(Math.random() * BOARD_HEIGHT)
     var radius = parseInt(Math.random() * BOARD_WIDTH / 10);
-    var planet = [x, y, radius]
+    var planet = {'x' : x, 'y' : y, 'radius' : radius};
     planets.push(planet);
   }
   return planets;
@@ -68,7 +70,7 @@ function generateStar(planets) {
     x = parseInt(Math.random() * (BOARD_WIDTH  * 0.9))
     y = parseInt(Math.random() * (BOARD_HEIGHT * 0.9))
   }
-  return [x, y];
+  return {'x' : x, 'y' : y};
 }
 
 function withinPlanets(x, y, planets) {
@@ -84,7 +86,10 @@ function withinPlanets(x, y, planets) {
 }
 
 function receiveScore(event) {
-  scores[event.name] = event.score
+  previous_score = (scores[event.name] == undefined ? [0, 0] : scores[event.name])
+  new_score = event.score;
+  cumulative_score = previous_score[1] + new_score;
+  scores[event.name] = [new_score, cumulative_score];
 }
 
 function gameStart(event) {
@@ -108,9 +113,11 @@ function gameStep() {
 }
 
 function sendScores() {
-  console.log(scores);
-  io.sockets.emit('all_scores', { 'scores' : scores });
-  scores = {}
+  io.sockets.emit('all_scores', getScoreBoard());
+}
+
+function getScoreBoard() {
+  return { 'scores' : scores };
 }
 
 setInterval(gameStep, 1000)
