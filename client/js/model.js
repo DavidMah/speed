@@ -6,10 +6,12 @@ function Game(canvas) {
   this.canvas = canvas;
   this.state = "waiting";
   this.time = 0;
+  this.maxTime = 0;
   this.planets = [];
+  this.score = 0;
   this.rocket = new Rocket();
   this.startX = 800 / 2;
-  this.startY = 800 - 20;
+  this.startY = 600 - 20;
 }
 
 Game.prototype.update = function() {
@@ -30,7 +32,10 @@ Game.prototype.draw = function(canvas) {
   }
 }
 
-Game.prototype.newGame = function(planets, starX, starY) {
+Game.prototype.newGame = function(planets, starX, starY, time) {
+  this.time = time;
+  this.score = 0;
+  this.maxTime = time;
   this.rocket.x = this.startX;
   this.rocket.y = this.startY;
   this.rocket.vx = 0;
@@ -40,6 +45,11 @@ Game.prototype.newGame = function(planets, starX, starY) {
     this.newPlanet(planets[i].x, planets[i].y, planets[i].radius);
   }
   this.state = "playing";
+}
+
+Game.prototype.end = function() {
+  this.time = 0;
+  this.state = "waiting";
 }
 
 Game.prototype.checkCollisions = function() {
@@ -71,10 +81,12 @@ Game.prototype.newPlanet = function(x, y, radius) {
 
 Game.prototype.die = function() {
   this.state = "dead";
+  this.score = 0;
 }
 
 Game.prototype.win = function() {
   this.state = "won";
+  this.score = this.maxTime - this.time;
 }
 
 /**
