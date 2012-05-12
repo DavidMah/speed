@@ -30,7 +30,8 @@ $(document).ready(function() {
       console.log("Received current time: " + event.time);
       setInterval(updateTimer, 100);
     });
-  });
+  };
+  $("#play_button").click(click);
 });
 
 function startGame(canvas, time, planets, star) {
