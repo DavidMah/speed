@@ -40,7 +40,7 @@ var scores      = {}
 
 
 function receiveScore(event) {
-  scores[event.name] = scores.event.score
+  scores[event.name] = event.score
 }
 function gameStart(event) {
   io.sockets.emit('game_start', {'time' : game_length - timer});
