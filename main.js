@@ -17,16 +17,13 @@ function handler (req, res) {
     });
 }
 
-var usernames = []
+var users = []
 
 io.sockets.on('connection', function (socket) {
   socket.emit('connected', {})
 
   socket.on('name', function(event) {
-    console.log(event)
-    console.log("got dat name" + event.name);
-    usernames.push(event.name);
-    io.sockets.emit('names', {'names' : usernames});
+    addNewUser(socket, event)
   });
 
   socket.on('start', gameStart);
@@ -34,19 +31,31 @@ io.sockets.on('connection', function (socket) {
 
 });
 
-var timer        = 0
-var game_length  = 20
-var scores       = {}
+var timer        = 0;
+var game_length  = 10;
+var scores       = {};
 
 var BOARD_WIDTH  = 800;
 var BOARD_HEIGHT = 600;
 var PLANET_QUANTITY = 4;
 
+function addNewUser(socket, event) {
+  console.log("got dat name" + event.name);
+  initializer = { 'score' : getScoreBoard()['score'],
+                  'timer' : getRemainingTime() };
+  socket.emit('all_scores', getScoreBoard());
+  socket.emit('current_time', {'time' : getRemainingTime()});
+}
+
 function generateGame() {
   planets = generatePlanets();
   star = generateStar(planets);
-  time = game_length - timer;
+  time = getRemainingTime();
   return {'planets' : planets, 'star' : star,'time' : time}
+}
+
+function getRemainingTime() {
+  return game_length - timer;
 }
 
 function generatePlanets() {
@@ -55,7 +64,7 @@ function generatePlanets() {
     var x = parseInt(Math.random() * BOARD_WIDTH)
     var y = parseInt(Math.random() * BOARD_HEIGHT)
     var radius = parseInt(Math.random() * BOARD_WIDTH / 10);
-    var planet = [x, y, radius]
+    var planet = {'x' : x, 'y' : y, 'radius' : radius};
     planets.push(planet);
   }
   return planets;
@@ -68,7 +77,7 @@ function generateStar(planets) {
     x = parseInt(Math.random() * (BOARD_WIDTH  * 0.9))
     y = parseInt(Math.random() * (BOARD_HEIGHT * 0.9))
   }
-  return [x, y];
+  return {'x' : x, 'y' : y};
 }
 
 function withinPlanets(x, y, planets) {
@@ -84,7 +93,10 @@ function withinPlanets(x, y, planets) {
 }
 
 function receiveScore(event) {
-  scores[event.name] = event.score
+  previous_score = (scores[event.name] == undefined ? [0, 0] : scores[event.name])
+  new_score = event.score;
+  cumulative_score = previous_score[1] + new_score;
+  scores[event.name] = [new_score, cumulative_score, true];
 }
 
 function gameStart(event) {
@@ -95,6 +107,7 @@ function gameEnd() {
   timer = 0;
   io.sockets.emit('game_end', {});
   setTimeout(sendScores, 1000);
+  setTimeout(resetScores, 2000);
 }
 
 function gameStep() {
@@ -108,9 +121,21 @@ function gameStep() {
 }
 
 function sendScores() {
-  console.log(scores);
-  io.sockets.emit('all_scores', { 'scores' : scores });
-  scores = {}
+  io.sockets.emit('all_scores', getScoreBoard());
+}
+
+function resetScores() {
+  for(var key in scores) {
+    if(!scores[key][2]) {
+      delete scores[key]
+    } else {
+      scores[key][2] = false;
+    }
+  }
+}
+
+function getScoreBoard() {
+  return { 'scores' : scores };
 }
 
 setInterval(gameStep, 1000)

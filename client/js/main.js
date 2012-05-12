@@ -14,8 +14,8 @@ $(document).ready(function() {
       socket.emit('name', {name: $("#name_input").val()});
     });
     socket.on('game_start', function(event) {
-      console.log("Starting game with data: " + event);
-      startGame(canvas, event.time);
+      console.log("Starting game with planets: " + event.planets);
+      startGame(canvas, event.time, event.planets, event.star);
     });
     socket.on('game_end', function(event) {
       endGame();
@@ -26,41 +26,30 @@ $(document).ready(function() {
       console.log("Received all scores: " + event.scores);
       show_scores(event.scores);
     });
-  };
-  $("#play_button").click(click);
-  $("#play_button").keypress(function(e) {
-    if (e.which == 13)  {
-      click();
-    }
+    socket.on('current_time', function(event) {
+      console.log("Received current time: " + event.time);
+      setInterval(updateTimer, 100);
+    });
   });
 });
 
-function startGame(canvas, time) {
+function startGame(canvas, time, planets, star) {
   $("#loading").css("visibility", "hidden");
   Ticker.setFPS(60);
   Ticker.addListener(window);
-  game.newGame([
-    {
-      x: 20,
-      y: 20,
-      radius: 100
-    },
-    {
-      x: 400,
-      y: 200,
-      radius: 150
-    }
-  ], 100, 200, time);
+  game.newGame(planets, star.x, star.y, time);
   // start countdown
   timer = setInterval(function() {
     if (game.state == "playing") {
       game.time--;
     }
   }, 1000);
+  $('#time_prompt').text('Time Remaining:');
 }
 
 function endGame() {
   clearInterval(timer);
+  $('#time_prompt').text("Next Game In:");
   game.end();
 }
 
@@ -79,4 +68,12 @@ function show_scores(scores) {
 function tick() {
   game.update();
   game.draw();
+}
+
+function updateTimer() {
+  if(game.state != 'waiting') {
+  $('#timer').text(game.time);
+  } else {
+  $('#timer').text(5 - game.time);
+  }
 }
