@@ -35,12 +35,26 @@ Game.prototype.newRocket = function() {
 function Rocket() {
   this.x = 0;
   this.y = 0;
-  this.vy = 1;
+  this.vy = 0;
   this.vx = 0;
   this.radius = 10;
+  this.acceleration = 0.1;
 }
 
 Rocket.prototype.update = function() {
+  if (KEYBOARD[LEFT]) {
+    this.vx += -this.acceleration;
+  }
+  if (KEYBOARD[RIGHT]) {
+    this.vx += this.acceleration;
+  }
+  if (KEYBOARD[UP]) {
+    this.vy += -this.acceleration;
+  }
+  if (KEYBOARD[DOWN]) {
+    this.vy += this.acceleration;
+  }
+  
   this.x += this.vx;
   this.y += this.vy;
 }
