@@ -22,14 +22,37 @@ var usernames = []
 io.sockets.on('connection', function (socket) {
   socket.emit('connected', {})
 
-  socket.on('name', function(name) {
-    usernames.push(name);
-    sockets.emit('names', usernames);
+  socket.on('name', function(event) {
+    console.log(event)
+    console.log("got dat name" + event.name);
+    usernames.push(event.name);
+    io.sockets.emit('names', {'names' : usernames});
   });
+
+  socket.on('start', gameStart);
 
 });
 
-io.sockets.on('name', function(socket) {
-  usernames.
-  sockets.emit('names', usernames);
+var timer       = 0
+var game_length = 20
+
+function gameStart() {
+  io.sockets.emit('game_start', {'time' : timer});
 }
+
+function gameEnd() {
+  timer = 0;
+  io.sockets.emit('game_end', {});
+}
+
+function gameStep() {
+  timer += 1;
+  if(timer == 5)
+    gameStart();
+  if(timer == game_length)
+    gameEnd();
+  if(timer % 5 == 0)
+    console.log("time " + timer)
+}
+
+setInterval(gameStep, 1000)
