@@ -34,9 +34,9 @@ Game.prototype.draw = function(canvas) {
     }
   } else if (this.state == "won") {
     context.fillStyle = "#ffff00";
-    context.fillRect(center.x, center.y, 100, 30);
+    context.fillRect(center.x, center.y, 200, 30);
     context.fillStyle = "#000000";
-    context.fillText("Nice!", center.x + 5, center.y + 25);
+    context.fillText("Nice! Score = " + game.score, center.x + 5, center.y + 25);
   } else if (this.state == "dead") {
     context.fillStyle = "#ff0000";
     context.fillRect(center.x, center.y, 100, 30);
@@ -98,6 +98,7 @@ Game.prototype.newPlanet = function(x, y, radius) {
 }
 
 Game.prototype.die = function() {
+  trace("DEAD!");
   this.state = "dead";
   this.score = 0;
 }
