@@ -8,9 +8,10 @@ function Game(canvas) {
   this.time = 0;
   this.maxTime = 0;
   this.planets = [];
+  this.score = 0;
   this.rocket = new Rocket();
   this.startX = 800 / 2;
-  this.startY = 800 - 20;
+  this.startY = 600 - 20;
 }
 
 Game.prototype.update = function() {

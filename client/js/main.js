@@ -1,5 +1,6 @@
 var game;
 var socket;
+var timer;
 
 $(document).ready(function() {
   var canvas = $('#game_canvas')[0];
@@ -16,7 +17,7 @@ $(document).ready(function() {
     });
     socket.on('game_end', function(event) {
       endGame();
-      console.log("Game ended. Sending score of " + score);
+      console.log("Game ended. Sending score of " + game.score);
       socket.emit('score', {name: $("#name_input").val(), score: game.score});
     })
     socket.on('all_scores', function(event) {
@@ -41,15 +42,15 @@ function startGame(canvas, time) {
     }
   ], 100, 200, time);
   // start countdown
-  setInterval(function() {
+  timer = setInterval(function() {
     if (game.state == "playing") {
       game.time--;
-      console.log(game.time);
     }
   }, 1000);
 }
 
 function endGame() {
+  clearInterval(timer);
   game.end();
 }
 
