@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="http://code.createjs.com/easeljs-0.4.1.min.js"></script>
     <script src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="http://cdn.socket.io/stable/socket.io.js"></script>
+    <script src="http://code.createjs.com/easeljs-0.4.1.min.js"></script>
     <script src="js/model.js"></script>
     <script src="js/control.js"></script>
     <script src="js/main.js"></script>
@@ -18,7 +19,7 @@
     text-align: center;
   }
   
-  div {
+  #game_canvas {
     padding: 10px;
     width: 800px;
     height: 800px;
@@ -28,6 +29,12 @@
   }
   </style>
   <body>
+    <div>
+      <input type="text" name="name" id="name_input" />
+      <button></button>
+    </div>
+    
+    
     <div>
       <canvas width="800" height="800" id="game_canvas"></canvas>
     </div>

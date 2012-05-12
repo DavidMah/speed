@@ -1,6 +1,17 @@
 var GAME;
 
 $(document).ready(function() {
+  // Create SocketIO instance, connect
+  var socket = new io.Socket('localhost',{
+    port: 8080
+  });
+  socket.connect();
+  socket.on('connect',function() {
+    console.log('Client has connected to the server!');
+  });
+});
+
+function startGame() {
   var canvas = $('#game_canvas')[0];
   GAME = new Game(canvas);
   Ticker.setFPS(60);
@@ -17,7 +28,7 @@ $(document).ready(function() {
       radius: 150
     }
   ], 100, 200);
-});
+}
 
 function tick() {
   GAME.update();
