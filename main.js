@@ -34,16 +34,61 @@ io.sockets.on('connection', function (socket) {
 
 });
 
-var timer       = 0
-var game_length = 20
-var scores      = {}
+var timer        = 0
+var game_length  = 20
+var scores       = {}
 
+var BOARD_WIDTH  = 800;
+var BOARD_HEIGHT = 600;
+var PLANET_QUANTITY = 4;
+
+function generateGame() {
+  planets = generatePlanets();
+  star = generateStar(planets);
+  time = game_length - timer;
+  return {'planets' : planets, 'star' : star,'time' : time}
+}
+
+function generatePlanets() {
+  var planets = [];
+  for(var i = 0; i < PLANET_QUANTITY; i++) {
+    var x = parseInt(Math.random() * BOARD_WIDTH)
+    var y = parseInt(Math.random() * BOARD_HEIGHT)
+    var radius = parseInt(Math.random() * BOARD_WIDTH / 10);
+    var planet = [x, y, radius]
+    planets.push(planet);
+  }
+  return planets;
+}
+
+function generateStar(planets) {
+  var x = -1;
+  var y = -1;
+  while(withinPlanets(x, y, planets)) {
+    x = parseInt(Math.random() * (BOARD_WIDTH  * 0.9))
+    y = parseInt(Math.random() * (BOARD_HEIGHT * 0.9))
+  }
+  return [x, y];
+}
+
+function withinPlanets(x, y, planets) {
+  if(0 > x || x > BOARD_WIDTH || 0 > y || y > BOARD_HEIGHT)
+    return true;
+  for(var i = 0; i < planets.length; i++) {
+    widthBound  = (planets[i].x - planets[i].radius < x) && (x < planets[i].x + planets[i].radius)
+    heightBound = (planets[i].y - planets[i].radius < y) && (y < planets[i].y + planets[i].radius)
+    if(widthBound && heightBound)
+      return true;
+  }
+  return false;
+}
 
 function receiveScore(event) {
   scores[event.name] = event.score
 }
+
 function gameStart(event) {
-  io.sockets.emit('game_start', {'time' : game_length - timer});
+  io.sockets.emit('game_start', generateGame());
 }
 
 function gameEnd() {
@@ -63,8 +108,9 @@ function gameStep() {
 }
 
 function sendScores() {
+  console.log(scores);
   io.sockets.emit('all_scores', { 'scores' : scores });
-  var scores = {}
+  scores = {}
 }
 
 setInterval(gameStep, 1000)
