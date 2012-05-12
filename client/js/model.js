@@ -34,9 +34,9 @@ Game.prototype.draw = function(canvas) {
     }
   } else if (this.state == "won") {
     context.fillStyle = "#ffff00";
-    context.fillRect(center.x, center.y, 100, 30);
+    context.fillRect(center.x, center.y, 180, 30);
     context.fillStyle = "#000000";
-    context.fillText("Nice!", center.x + 5, center.y + 25);
+    context.fillText("Nice! Score += " + this.score , center.x + 5, center.y + 25);
   } else if (this.state == "dead") {
     context.fillStyle = "#ff0000";
     context.fillRect(center.x, center.y, 100, 30);
