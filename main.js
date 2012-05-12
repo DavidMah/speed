@@ -31,9 +31,9 @@ io.sockets.on('connection', function (socket) {
 
 });
 
-var timer        = 0
-var game_length  = 20
-var scores       = {}
+var timer        = 0;
+var game_length  = 10;
+var scores       = {};
 
 var BOARD_WIDTH  = 800;
 var BOARD_HEIGHT = 600;
@@ -60,10 +60,10 @@ function getRemainingTime() {
 
 function generatePlanets() {
   var planets = [];
-  for(var i = 0; i < Math.random() * 4 + PLANET_QUANTITY; i++) {
+  for(var i = 0; i < PLANET_QUANTITY; i++) {
     var x = parseInt(Math.random() * BOARD_WIDTH)
     var y = parseInt(Math.random() * BOARD_HEIGHT)
-    var radius = parseInt(Math.random() * BOARD_WIDTH / 5);
+    var radius = parseInt(Math.random() * BOARD_WIDTH / 10);
     var planet = {'x' : x, 'y' : y, 'radius' : radius};
     planets.push(planet);
   }
@@ -96,7 +96,7 @@ function receiveScore(event) {
   previous_score = (scores[event.name] == undefined ? [0, 0] : scores[event.name])
   new_score = event.score;
   cumulative_score = previous_score[1] + new_score;
-  scores[event.name] = [new_score, cumulative_score];
+  scores[event.name] = [new_score, cumulative_score, true];
 }
 
 function gameStart(event) {
@@ -107,6 +107,7 @@ function gameEnd() {
   timer = 0;
   io.sockets.emit('game_end', {});
   setTimeout(sendScores, 1000);
+  setTimeout(resetScores, 2000);
 }
 
 function gameStep() {
@@ -121,6 +122,16 @@ function gameStep() {
 
 function sendScores() {
   io.sockets.emit('all_scores', getScoreBoard());
+}
+
+function resetScores() {
+  for(var key in scores) {
+    if(!scores[key][2]) {
+      delete scores[key]
+    } else {
+      scores[key][2] = false;
+    }
+  }
 }
 
 function getScoreBoard() {
