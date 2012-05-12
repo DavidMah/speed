@@ -1,0 +1,12 @@
+<script type="text/javascript" src="http://localhost:8080/nowjs/now.js"></script>
+
+<script type="text/javascript">
+  now.ready(function(){
+    // "Hello World!" will print on server
+    now.logStuff("Hello World!");
+  });
+
+  now.updateCounter = function(n) {
+    console.log("somebody updated the counter to " + n);
+  }
+</script>

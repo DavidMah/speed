@@ -15,6 +15,7 @@ Game.prototype.update = function() {
 } 
 
 Game.prototype.draw = function(canvas) {
+  this.canvas.width = this.canvas.width;
   this.rocket.draw(this.canvas.getContext("2d"));
 }
 
@@ -34,8 +35,9 @@ Game.prototype.newRocket = function() {
 function Rocket() {
   this.x = 0;
   this.y = 0;
-  this.vy = 0;
+  this.vy = 1;
   this.vx = 0;
+  this.radius = 10;
 }
 
 Rocket.prototype.update = function() {
@@ -44,6 +46,6 @@ Rocket.prototype.update = function() {
 }
 
 Rocket.prototype.draw = function(ctx) {
-  ctx.fillStyle = "rgb(200,0,0)";  
-  ctx.fillRect (10, 10, 55, 50);
+  ctx.fillStyle = "#000000";  
+  ctx.fillRect(this.x, this.y, 20, 20);
 }
