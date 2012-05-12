@@ -19,7 +19,6 @@ $(document).ready(function() {
       }
     }
     $("#welcome").css("visibility", "hidden");
-    $("#loading").css("visibility", "visible");
     socket = io.connect('http://173.255.245.211:8080');
     socket.on('connected', function(event) {
       console.log("Sending name: " + $("#name_input").val());
