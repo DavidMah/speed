@@ -19,7 +19,6 @@ $(document).ready(function() {
       }
     }
     $("#welcome").css("visibility", "hidden");
-    $("#loading").css("visibility", "visible");
     socket = io.connect('http://173.255.245.211:8080');
     socket.on('connected', function(event) {
       console.log("Sending name: " + $("#name_input").val());
@@ -77,6 +76,9 @@ function show_scores(scores) {
   for (player in scores) {
     var tr = document.createElement("tr");
     var ship = scores[player][2];
+    if (!ship) {
+      ship = "img/cat.jpeg";
+    }
     tr.innerHTML = "<td><img src='" + ship + "'></td><td>" + player + "</td><td>" + scores[player][0] + "</td><td>" + scores[player][1] + "</td>";
     table.appendChild(tr);
   }
