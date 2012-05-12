@@ -155,7 +155,6 @@ Rocket.prototype.update = function() {
 Rocket.prototype.draw = function(ctx) {
   ctx.fillStyle = "#FF0000";  
   ctx.fillRect(this.x - 7, this.y - 7, 15, 15);
-  console.log(this.image);
   var x = this.x - this.image.width / 2;
   var y = this.y - this.image.height / 2;
   ctx.drawImage(this.image, x, y);
