@@ -41,14 +41,21 @@ var PLANET_QUANTITY = 4;
 
 function addNewUser(socket, event) {
   console.log("got dat name" + event.name);
+  initializer = { 'score' : getScoreBoard()['score'],
+                  'timer' : getRemainingTime() };
   socket.emit('all_scores', getScoreBoard());
+  socket.emit('current_time', {'time' : getRemainingTime()});
 }
 
 function generateGame() {
   planets = generatePlanets();
   star = generateStar(planets);
-  time = game_length - timer;
+  time = getRemainingTime();
   return {'planets' : planets, 'star' : star,'time' : time}
+}
+
+function getRemainingTime() {
+  return game_length - timer;
 }
 
 function generatePlanets() {
