@@ -32,7 +32,7 @@ io.sockets.on('connection', function (socket) {
 });
 
 var timer        = 0;
-var game_length  = 12;
+var game_length  = 14;
 var scores       = {};
 
 var BOARD_WIDTH  = 800;
