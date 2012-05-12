@@ -26,6 +26,10 @@ $(document).ready(function() {
       console.log("Received all scores: " + event.scores);
       show_scores(event.scores);
     });
+    socket.on('current_time', function(event) {
+      console.log("Received current time: " + event.time);
+      setInterval(updateTimer, 100);
+    });
   });
 });
 
@@ -40,10 +44,12 @@ function startGame(canvas, time, planets, star) {
       game.time--;
     }
   }, 1000);
+  $('#time_prompt').text('Time Remaining:');
 }
 
 function endGame() {
   clearInterval(timer);
+  $('#time_prompt').text("Next Game In:");
   game.end();
 }
 
@@ -62,4 +68,12 @@ function show_scores(scores) {
 function tick() {
   game.update();
   game.draw();
+}
+
+function updateTimer() {
+  if(game.state != 'waiting') {
+  $('#timer').text(game.time);
+  } else {
+  $('#timer').text(5 - game.time);
+  }
 }
