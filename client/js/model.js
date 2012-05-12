@@ -98,7 +98,6 @@ Game.prototype.newPlanet = function(x, y, radius) {
 }
 
 Game.prototype.die = function() {
-  trace("DEAD!");
   this.state = "dead";
   this.score = 0;
 }
