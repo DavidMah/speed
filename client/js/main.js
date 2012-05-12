@@ -5,7 +5,9 @@ var timer;
 $(document).ready(function() {
   var canvas = $('#game_canvas')[0];
   game = new Game(canvas);
-  $("#play_button").click(function() {
+    $("#play_button").click(function() {
+    $("#welcome").css("visibility", "hidden");
+    $("#loading").css("visibility", "visible");
     socket = io.connect('http://localhost');
     socket.on('connected', function(event) {
       console.log("Sending name: " + $("#name_input").val());
@@ -28,6 +30,7 @@ $(document).ready(function() {
 });
 
 function startGame(canvas, time, planets, star) {
+  $("#loading").css("visibility", "hidden");
   Ticker.setFPS(60);
   Ticker.addListener(window);
   game.newGame(planets, star.x, star.y, time);
