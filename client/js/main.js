@@ -72,8 +72,8 @@ function tick() {
 
 function updateTimer() {
   if(game.state != 'waiting') {
-  $('#timer').text(game.time);
+    $('#timer').text(game.time);
   } else {
-  $('#timer').text(5 - game.time);
+    $('#timer').text(5 + game.time);
   }
 }
