@@ -71,13 +71,13 @@ function show_scores(scores) {
   var table = document.createElement("table");
 
   var tr = document.createElement("tr");
-  tr.textContent = "<td>name</td><td>recent score</td><td>cumulative</td>";
+  tr.innerHTML = "<td>name</td><td>recent score</td><td>cumulative</td>";
   table.appendChild(tr);
   
   for (player in scores) {
     var tr = document.createElement("tr");
     var ship = scores[player][2];
-    tr.textContent = "<td><img src='" + ship + "'></td><td>" + player + "</td><td>" + scores[player][0] + "</td><td>" + scores[player][1] + "</td>";
+    tr.innerHTML = "<td><img src='" + ship + "'></td><td>" + player + "</td><td>" + scores[player][0] + "</td><td>" + scores[player][1] + "</td>";
     table.appendChild(tr);
   }
   $("#scores")[0].appendChild(table);
