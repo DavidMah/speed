@@ -98,21 +98,35 @@ function Rocket() {
   this.y = 0;
   this.vy = 0;
   this.vx = 0;
-  this.radius = 10;
   this.acceleration = 0.1;
+  var ship = new Image();
+  ship.src = "img/rocket_orange.gif";
+  this.image = ship;
+
+  var engine = new Image();
+  engine.src="img/rocket_fire.gif";
+  this.engine = engine;
+
+  this.radius = this.image.width / 2;
+  this.moving = false;
 }
 
 Rocket.prototype.update = function() {
+  this.moving = false;
   if (KEYBOARD[LEFT]) {
+    this.moving = true;
     this.vx += -this.acceleration;
   }
   if (KEYBOARD[RIGHT]) {
+    this.moving = true;
     this.vx += this.acceleration;
   }
   if (KEYBOARD[UP]) {
+    this.moving = true;
     this.vy += -this.acceleration;
   }
   if (KEYBOARD[DOWN]) {
+    this.moving = true;
     this.vy += this.acceleration;
   }
   this.x += this.vx;
@@ -122,6 +136,13 @@ Rocket.prototype.update = function() {
 Rocket.prototype.draw = function(ctx) {
   ctx.fillStyle = "#FF0000";  
   ctx.fillRect(this.x - 7, this.y - 7, 15, 15);
+  console.log(this.image);
+  var x = this.x - this.image.width / 2;
+  var y = this.y - this.image.height / 2;
+  ctx.drawImage(this.image, x, y);
+  if (this.moving) {
+    ctx.drawImage(this.engine, x, y);
+  }
 }
 
 /**
@@ -147,11 +168,11 @@ function Star(x, y, radius) {
   this.x = x;
   this.y = y;
   this.radius = radius;
+  var i = new Image();
+  i.src = "img/star.gif";
+  this.image = i;
 }
 
 Star.prototype.draw = function(ctx) {
-  ctx.arc(this.x, this.y, this.radius, 0 , 2 * Math.PI, false);
-  ctx.fillStyle = "#FFFF00";  
-  ctx.fill();
-
+  ctx.drawImage(this.image, this.x - this.image.width / 2, this.y - this.image.height / 2);
 }

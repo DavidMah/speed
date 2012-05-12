@@ -5,7 +5,7 @@ var timer;
 $(document).ready(function() {
   var canvas = $('#game_canvas')[0];
   game = new Game(canvas);
-    $("#play_button").click(function() {
+    var click = function() {
     $("#welcome").css("visibility", "hidden");
     $("#loading").css("visibility", "visible");
     socket = io.connect('http://localhost');
@@ -26,6 +26,12 @@ $(document).ready(function() {
       console.log("Received all scores: " + event.scores);
       show_scores(event.scores);
     });
+  };
+  $("#play_button").click(click);
+  $("#play_button").keypress(function(e) {
+    if (e.which == 13)  {
+      click();
+    }
   });
 });
 
