@@ -63,9 +63,10 @@ function show_scores(scores) {
   p.textContent = "name: recent score -- cumulative";
   $('#scores')[0].appendChild(p);
 
+  
   for (player in scores) {
-    var p = document.createElement("p");
-    p.textContent = player + ": " + scores[player][0] + " -- " + scores[player][1];
+    var p = document.createElement("pre");
+    p.textContent = player + "\t\t" + scores[player][0] + "\t\t" + scores[player][1];
     $("#scores")[0].appendChild(p);
   }
 
