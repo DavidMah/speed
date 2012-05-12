@@ -34,6 +34,7 @@ Game.prototype.draw = function(canvas) {
 
 Game.prototype.newGame = function(planets, starX, starY, time) {
   this.time = time;
+  this.score = 0;
   this.maxTime = time;
   this.rocket.x = this.startX;
   this.rocket.y = this.startY;

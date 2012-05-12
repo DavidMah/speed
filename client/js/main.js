@@ -22,6 +22,7 @@ $(document).ready(function() {
     })
     socket.on('all_scores', function(event) {
       console.log("Received all scores: " + event.scores);
+      show_scores(event.scores);
     });
   });
 });
@@ -57,6 +58,7 @@ function endGame() {
 // Expects a dictionary relating usernames to scores
 // e.g.: {a: 1, b: 2, c: 3}
 function show_scores(scores) {
+  $("#scores")[0].innerHTML = "";
   var score;
   for (player in scores) {
     var p = document.createElement("p");
