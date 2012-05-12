@@ -31,11 +31,22 @@
   }
 
   .right {
+    width: 300px;
     float: right;
   }
 
+  #time_box {
+    width: 300px;
+    height: 90px;
+  }
+
+  #timer {
+    font-size: 28pt;
+    font-weight: bold;
+  }
+
   #container {
-    width: 1000px;
+    width: 1200px;
   }
 
   .display {
@@ -71,7 +82,11 @@
     </div>
     <div id="container">
       <div class="right">
-        <h1>Scores</h1>
+        <div id="time_box">
+          <h2 id="time_prompt">Time Remaining:</h2>
+          <span id="timer">42</span>
+        </div>
+        <h2>Scores</h2>
         <div id="scores"></div>
       </div>
       <div>
