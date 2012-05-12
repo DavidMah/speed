@@ -12,7 +12,9 @@
   <style type="text/css">
   body {
     background-color: #D4E9E3;
+    background-color: gray;
     font-family: Courier, monospace;
+    text-align: center;
   }
   
   h1 {
@@ -22,21 +24,74 @@
   #game_canvas {
     padding: 10px;
     width: 800px;
-    height: 800px;
+    height: 600px;
     border: 1px solid #000;
     margin: 20px auto;
     background-color: #000;
   }
+
+  .right {
+    width: 300px;
+    float: right;
+  }
+
+  #time_box {
+    width: 300px;
+    height: 90px;
+  }
+
+  #timer {
+    font-size: 28pt;
+    font-weight: bold;
+  }
+
+  #container {
+    width: 1200px;
+  }
+
+  .display {
+    position: fixed;
+    width: 80%;
+    margin: 10%;
+    background-color: red;
+    border: dashed yellow 15px;
+    font-size: 40px; 
+  }
+
+  #loading {
+    visibility: hidden;
+    vertical-align: center;
+    padding: 4em 0;
+  }
+
+  #name_input {
+    font-size: 40px; 
+  }
+
   </style>
   <body>
-    <div>
+    <div id="loading" class="display">
+      <blink>waiting for next game...</blink>
+    </div>
+    <div id="welcome" class="display">
+      <h1>what's yer name, captain?</h1>
+      <img src="img/rocket_orange.gif" />
       <input type="text" name="name" id="name_input" />
       <button id="play_button">Play</button>
+      <img src="img/rocket_gray.gif"/>
     </div>
-    
-    
-    <div>
-      <canvas width="800" height="800" id="game_canvas"></canvas>
+    <div id="container">
+      <div class="right">
+        <div id="time_box">
+          <h2 id="time_prompt">Time Remaining:</h2>
+          <span id="timer">42</span>
+        </div>
+        <h2>Scores</h2>
+        <div id="scores"></div>
+      </div>
+      <div>
+        <canvas width="800" height="600" id="game_canvas"></canvas>
+      </div>
     </div>
   </body>
 </html>
