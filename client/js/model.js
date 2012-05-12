@@ -49,7 +49,6 @@ Game.prototype.newGame = function(planets, starX, starY, time) {
 
 Game.prototype.end = function() {
   this.planets = [];
-  this.time = 0;
   this.state = "waiting";
 }
 
