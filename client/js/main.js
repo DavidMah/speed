@@ -1,10 +1,12 @@
 var GAME;
 
 $(document).ready(function() {
-  var socket = io.connect('http://localhost');
-  socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('name', { my: 'data' });
+  console.log($("#name_input").value);
+  $("#play_button").click(function() {
+    var socket = io.connect('http://localhost');
+    socket.on('connected', function(data) {
+      socket.emit('name', {name: $("#name_input").value});
+    });
   });
 });
 
