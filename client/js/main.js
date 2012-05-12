@@ -3,8 +3,12 @@ var GAME;
 $(document).ready(function() {
   $("#play_button").click(function() {
     var socket = io.connect('http://localhost');
-    socket.on('connected', function(data) {
+    socket.on('connected', function(event) {
       socket.emit('name', {name: $("#name_input").val()});
+    });
+    
+    socket.on('game_start', function(event) {
+      
     });
   });
 });
