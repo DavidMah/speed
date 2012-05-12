@@ -44,6 +44,17 @@ function startGame(canvas, time) {
   ], 100, 200);
 }
 
+// Expects a dictionary relating usernames to scores
+// e.g.: {a: 1, b: 2, c: 3}
+function show_scores(scores) {
+  var score;
+  for (player in scores) {
+    var p = document.createElement("p");
+    p.textContent = player + ": " + scores[player]
+    $("#scores")[0].appendChild(p);
+  }
+}
+
 function tick() {
   game.update();
   game.draw();
