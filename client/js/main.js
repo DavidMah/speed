@@ -59,8 +59,8 @@ function show_scores(scores) {
   $("#scores")[0].innerHTML = "";
   var score;
 
-  var p = document.createElement("p");
-  p.textContent = "name: recent score -- cumulative";
+  var p = document.createElement("pre");
+  p.textContent = "name\t\trecent score\t\tcumulative";
   $('#scores')[0].appendChild(p);
 
   
