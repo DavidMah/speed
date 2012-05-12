@@ -116,6 +116,9 @@ function Rocket() {
   this.y = 0;
   this.vy = 0;
   this.vx = 0;
+  
+  this.angle = 0;
+  
   this.acceleration = 0.1;
   var ship = new Image();
   ship.src = "img/rocket_orange.gif";
@@ -127,40 +130,38 @@ function Rocket() {
 
   this.radius = 20;
   this.moving = false;
-  this.acceleration = 0.03;
+  this.acceleration = 0.1;
 }
 
 Rocket.prototype.update = function() {
   this.moving = false;
   if (KEYBOARD[LEFT]) {
-    this.moving = true;
-    this.vx += -this.acceleration;
+    this.angle += -this.acceleration;
   }
   if (KEYBOARD[RIGHT]) {
-    this.moving = true;
-    this.vx += this.acceleration;
+    this.angle += this.acceleration;
   }
   if (KEYBOARD[UP]) {
     this.moving = true;
-    this.vy += -this.acceleration;
-  }
-  if (KEYBOARD[DOWN]) {
-    this.moving = true;
-    this.vy += this.acceleration;
+    this.vx += Math.cos(this.angle - Math.PI / 2) * this.acceleration;
+    this.vy += Math.sin(this.angle - Math.PI / 2) * this.acceleration;
   }
   this.x += this.vx;
   this.y += this.vy;
 }
 
 Rocket.prototype.draw = function(ctx) {
-  ctx.fillStyle = "#FF0000";  
-  ctx.fillRect(this.x - 7, this.y - 7, 15, 15);
-  var x = this.x - this.image.width / 2;
-  var y = this.y - this.image.height / 2;
+  ctx.save();
+  ctx.translate(this.x, this.y);
+  // rotate 45 degrees clockwise
+  ctx.rotate(this.angle);
+  var x = -this.image.width / 2;
+  var y = -this.image.height / 2;
   ctx.drawImage(this.image, x, y);
   if (this.moving) {
     ctx.drawImage(this.engine, x, y);
   }
+  ctx.restore();
 }
 
 /**
